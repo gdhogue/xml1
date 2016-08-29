@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xs:schema targetNamespace="http://www.af.mil/AircraftType"
+	elementFormDefault="qualified" xmlns:xs="http://www.w3.org/2001/XMLSchema"
+	xmlns:tns="http://www.af.mil/AircraftType">
+	
+    <xs:element name="Airplane" type="tns:AircraftType"></xs:element>
+	
+	<xs:complexType name="AirframeType">
+        <xs:sequence>
+            <xs:element name="Manufacturer" type="xs:string" minOccurs="1" maxOccurs="1"></xs:element>
+            <xs:element name="Model" type="xs:string" minOccurs="0" maxOccurs="1"></xs:element>
+            <xs:element name="TailNumber" minOccurs="1" maxOccurs="1">
+    			<xs:simpleType>
+    				<xs:restriction base="xs:string">
+                        <xs:pattern value="[N][0-9]{4}[A-Z]"></xs:pattern>
+                    </xs:restriction>
+    			</xs:simpleType>
+            </xs:element>
+        </xs:sequence>
+    </xs:complexType>
+
+    <xs:complexType name="HardwareType">
+        <xs:sequence>
+            <xs:element name="Name" type="xs:string" minOccurs="1" maxOccurs="1"></xs:element>
+            <xs:element name="PowerState" type="xs:boolean" minOccurs="1" maxOccurs="1"></xs:element>
+            <xs:element name="HardwareKind" type="tns:HardwareEnum" minOccurs="1" maxOccurs="1"></xs:element>
+        </xs:sequence>
+    </xs:complexType>
+    
+    <xs:complexType name="SoftwareType">
+        <xs:sequence>
+            <xs:element name="Name" type="xs:string" minOccurs="1" maxOccurs="1"></xs:element>
+            <xs:element name="Version" type="xs:int" minOccurs="1" maxOccurs="1"></xs:element>
+        </xs:sequence>
+    </xs:complexType>
+
+    <xs:simpleType name="HardwareEnum">
+    	<xs:restriction base="xs:string">
+            <xs:enumeration value="FlightSystem"></xs:enumeration>
+            <xs:enumeration value="AccessorySystem"></xs:enumeration>
+        </xs:restriction>
+    </xs:simpleType>
+
+    <xs:complexType name="AircraftType">
+        <xs:sequence>
+            <xs:element name="Airframe" type="tns:AirframeType" minOccurs="1" maxOccurs="1"></xs:element>
+            <xs:element name="Hardware" type="tns:HardwareType" minOccurs="1" maxOccurs="100"></xs:element>
+            <xs:element name="Software" type="tns:SoftwareType" minOccurs="0" maxOccurs="unbounded"></xs:element>
+        </xs:sequence>
+    </xs:complexType>
+</xs:schema>
